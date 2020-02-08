@@ -1,0 +1,287 @@
+﻿@model DevFormAz.Models.UserViewModel
+@{
+    ViewBag.Title = "UserViewPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Main Content -->
+@*<section class="pageWrapperForIndex mt-3 mb-3">
+    <div class="container">
+        <div class="profileBox">
+            <div class="row">
+                <div class="col-md-4 col-12 mb-5">
+                    <div class="profileInfo">
+                        <div class="profilePic">
+                            @if (Model.GetUserDetail.Image != null)
+                            {
+                                <img src="~/Public/images/UsersFolder/ProfilePic/@Model.GetUserDetail.Image" alt="">
+                            }
+                            else
+                            {
+                                <img src="~/Public/images/UsersFolder/ProfilePic/devAvatar.svg" alt="">
+                            }
+                        </div>
+                        <div class="userInfo">
+                            <h4>@Model.GetUserDetail.User.FirstName @Model.GetUserDetail.User.Lastname</h4>
+                        </div>
+
+                        <div class="profileActivity mt-1">
+                            <div class="userSocialDetail">
+                                <div class="row">
+
+                                    <div class="col-md-4 col-4 col-sm-4 d-flex justify-content-center">
+                                        <div class="postCount">
+                                            <a href=""><i class="fas fa-bullhorn mr-2"></i>@Model.Forms.Where(f => f.isDeleted == false).Count()</a>
+                                            <p>Postlar</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-4 col-sm-4 d-flex justify-content-center">
+                                        <div class="followersBox">
+                                            <a href=""><i class="fas fa-users mr-2"></i>0</a>
+                                            <p>Izləyici</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-4 col-sm-4 d-flex justify-content-center">
+                                        <div class="followingBox">
+                                            <a href=""><i class="fas fa-user mr-2"></i>0</a>
+                                            <p>İzləyir</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="userSetting">
+                            <div class="settingBtn">
+                                <a href="/Home/UserPanel">Düzəliş et <i class="fas fa-pen ml-1"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="userDetail">
+                            <div class="userPosition">
+                                @if (Model.GetUserDetail.Specialty != null)
+                                {
+                                    <p><i class="fas fa-user-tie mr-1"></i>@Model.GetUserDetail.Specialty</p>
+                                }
+
+                            </div>
+                            <div class="userlocation">
+                                @if (Model.GetUserDetail.Country != null)
+                                {
+                                    <p><i class="fas fa-map-marker-alt mr-1"></i>@Model.GetUserDetail.Country</p>
+                                }
+                            </div>
+                            <div class="usersocialLinks">
+                                @if (Model.GetUserDetail.GithubLink != null)
+                                {
+                                    <a href="@Model.GetUserDetail.GithubLink"><i class="fab fa-github mr-1"></i>Github</a>
+                                }
+                                @if (Model.GetUserDetail.LinkedinLink != null)
+                                {
+                                    <a href="@Model.GetUserDetail.LinkedinLink"><i class="fab fa-linkedin mr-1"></i>LinkedIn</a>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-12  userActivity mb-5">
+                    <div class="activityTabs">
+                        <ul>
+                            <li data-tab-target="#UserInformation" class="targetActive">
+                                Məlumatlar
+                            </li>
+                            <li data-tab-target="#myPosts">
+                                Postlarım
+                            </li>
+                            <li data-tab-target="#mySaves">
+                                Qeydlər
+                            </li>
+                        </ul>
+                        <hr>
+                    </div>
+
+                    <div id="UserInformation" data-tab-content class="active">
+                        <div class="userBio">
+                            <div class="bioHeader">
+                                <h2>Biografiya</h2>
+                            </div>
+                            <div class="bioContent">
+
+                                @if (Model.GetUserDetail.Biography != null)
+                                {
+                                    <p>
+                                        @Model.GetUserDetail.Biography
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>Burada heç bir məlumat qeyd etməmisiniz</p>
+                                }
+
+
+                            </div>
+                        </div>
+
+                        <div class="userSkills mb-3">
+                            <div class="skillheader">
+                                <h2>Bacarıqlar</h2>
+
+                            </div>
+
+                            <div class="skillContent">
+                                <ul>
+                                    @if (Model.GetUserDetail.Skills != null)
+                                    {
+                                        foreach (var item in Model.GetUserDetail.Skills)
+                                        {
+                                            <li>@item.Name</li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li>Burada heç bir məlumat qeyd olunmayıb</li>
+                                    }
+
+
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div class="experience">
+                            <div class="experienceHeader">
+                                <h2>Təcrübələr</h2>
+
+                            </div>
+
+                            @if (Model.GetUserDetail.Jobs != null)
+                            {
+                                foreach (var item in Model.GetUserDetail.Jobs)
+                                {
+                                    <div class="exp">
+                                        <h4>@item.JobName</h4>
+                                        <p><span>@item.InJob</span>-<span>@item.OutJob</span></p>
+                                        <h5>@item.JobDesc</h5>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="exp">
+                                    <p>Burada heç bir məlumat qeyd olunmayıb</p>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div id="myPosts" data-tab-content>
+                        <div class="mypostHeader">
+                            <h2>Postlarım</h2>
+                        </div>
+                        <div class="mypostContent">
+                            @foreach (var item in Model.Forms.Where(uid => uid.UserDetailId == Model.GetUserDetail.Id))
+                            {
+                                if (item.isDeleted == false)
+                                {
+                                    <div class="postBox">
+                                        <div class="postUserInfo">
+                                            <div class="boxOfInfo">
+                                                <div class="imageBox">
+                                                    @if (item.UserDetail.Image != null)
+                                                    {
+                                                        <img width="60" src="~/Public/Images/UsersFolder/ProfilePic/@item.UserDetail.Image" alt="">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img width="60" src="~/Public/Images/UsersFolder/ProfilePic/devAvatar.svg" alt="">
+                                                    }
+
+                                                </div>
+                                                <div class="postUserName">
+                                                    <p>@item.UserDetail.User.FirstName @item.UserDetail.User.Lastname</p>
+                                                    <span>@item.FormTime.ToString("dd.MM.yyyy")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="postUserContent">
+                                            <div class="boxOfContent">
+                                                <div class="posthead">
+                                                    <h4>@item.Name</h4>
+                                                </div>
+                                                <div class="postContent">
+                                                    <p>@item.Description</p>
+                                                </div>
+                                                <div class="mb-2">
+                                                    @foreach (var tag in Model.Tags.Where(i => i.FormId == item.Id))
+                                                    {
+                                                        <span class="mr-1">@tag.TagName</span>
+                                                    }
+                                                </div>
+                                                <div class="postreadmore">
+                                                    <a href="/Home/FormView/@item.Id">Davamı</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="postGrades">
+                                            <div class="boxOfGrades">
+                                                <div class="viewIcon">
+                                                    <i class="far fa-eye"></i>
+                                                </div>
+                                                <div class="viewLikeCount">
+                                                    <div class="viewCount">
+                                                        <span class="view">@item.FormViewCounts.Count()</span>
+
+                                                    </div>
+                                                    <div class="likeCount">
+                                                        @item.FormLikes.Count()
+                                                    </div>
+                                                </div>
+                                                <div class="LikeBtn">
+                                                    @if (userId != 0)
+                                                    {
+                                                        <span class="Like" data-id="@item.Id">
+
+                                                            @if (item.FormLikes.Any(u => u.UserId == userId && u.FormId == item.Id))
+                                                            {
+                                                                <i class="fas fa-thumbs-up likeHeart" style="color:#303F9F;"></i>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="far fa-thumbs-up"></i>
+                                                            }
+
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>
+                                                            <i class="far fa-thumbs-up" title="Bəyənmək üçün sistemə daxil olmalısınız"></i>
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            }
+                        </div>
+                    </div>
+                    <div id="mySaves" data-tab-content>
+                        <h2>qeydlerim</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>*@

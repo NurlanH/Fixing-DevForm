@@ -1,0 +1,269 @@
+﻿@model DevFormAz.Models.Form
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int userId = 0;
+
+    if ((int?)Session["UserId"] != null)
+    {
+        userId = (int)Session["UserId"];
+    }
+
+
+}
+<!-- Main Content -->
+<section class="pageWrapperForIndex mt-3 mb-3">
+    <div class="container">
+
+        <div id="mainFormContent">
+            <div class="row">
+                <!-- Left side -->
+                <div class="col-md-12 col-lg-2 col-12  col-sm-12">
+                    <div class="devNavs">
+                        <div class="navs">
+                            <ul>
+                                <li>
+                                    <a href="/Home/TagPage">Taglar</a>
+                                </li>
+                                <li>
+                                    <a href="/Home/UsersInspectPage">İstifadəçilər</a>
+                                </li>
+                                <li>
+                                    <a href="#">Proyektlər</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ReadForm -->
+                <div class="col-md-12 col-lg-8 col-12 col-sm-12 mt-4 readformMainBox">
+                    <div class="readForm">
+                        <div class="sharedUser mb-3">
+                            <div class="userInfoDiv">
+                                <div class="userImg mr-3">
+                                    @if (Model.User.UserDetail.Image != null)
+                                    {
+                                        <img width="50" src="~/Public/Images/UsersFolder/ProfilePic/@Model.User.UserDetail.Image" />
+                                    }
+                                    else
+                                    {
+                                        <img width="50" src="~/Public/Images/UsersFolder/ProfilePic/devAvatar.svg" />
+                                    }
+
+                                </div>
+                                <div class="userInfo">
+                                    <div class="userName">
+                                        <h5>@Model.User.FirstName @Model.User.Lastname</h5>
+                                    </div>
+                                    <div class="sharedTime">
+                                        <span>@Model.FormTime.ToString("dd.MM.yyyy")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="postInfoDiv">
+                                <div class="viewLikeCount mb-2 mt-2">
+                                    <div class="viewIconCount">
+                                        <div class="viewIcon mr-1">
+                                            <i class="far fa-eye"></i>
+                                        </div>
+                                        <div class="viewCount">@Model.FormViewCounts.Count()</div>
+                                    </div>
+                                    <div class="likeIconCount">
+                                        <div class="likeIcon mr-1">
+                                            @if (userId != 0)
+                                            {
+                                                <span class="Like" data-id="@Model.Id">
+
+                                                    @if (Model.FormLikes.Any(u => u.UserId == userId && u.FormId == Model.Id))
+                                                    {
+                                                        <i class="fas fa-thumbs-up likeHeart" style="color:#303F9F;"></i>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="far fa-thumbs-up"></i>
+                                                    }
+
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    <i class="far fa-thumbs-up" title="Bəyənmək üçün sistemə daxil olmalısınız"></i>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div class="viewLikeCount">
+                                            <div class="likeCount">
+                                                @Model.FormLikes.Count()
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr />
+                        <div class="FormHeaderDesc mb-2">
+                            <div class="EditDelete">
+                                @if ((int?)Session["UserId"] != null && Model.User.Id == (int)Session["UserId"])
+                                {
+
+                                    <div class="editIcon mr-2">
+                                        <a class="btn" href="/Home/EditForm/@Model.Id"><i class="fas fa-edit"></i></a>
+                                    </div>
+                                    <div class="deleteIcon ">
+                                        <a class="btn" href="/Home/DeleteForm/@Model.Id"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                }
+                                else if ((int?)Session["UserId"] != null)
+                                {
+                                    <div class="saveIcon  mr-2">
+                                        <a class="btn btn-success" href="/Home/SaveForm/@Model.Id"><i class="fas fa-save"></i></a>
+                                    </div>
+                                }
+                            </div>
+                            <div class="formHead">
+                                <h1>@Model.Name</h1>
+                            </div>
+                            <div class="tagsBox mb-2 mt-2">
+                                @foreach (var item in Model.TagLists)
+                                {
+                                    <span class="tags">@item.TagName</span>
+                                }
+                            </div>
+                            <div class="formDesc">
+                                <p>
+                                    @Model.Description
+                                </p>
+                            </div>
+                            <div id="errorImg" class="imgBox">
+                                @if (Model.FormImages != null)
+                                {
+                                    foreach (var img in Model.FormImages)
+                                    {
+                                        <img class="errimgClick" width="200" src="~/Public/Images/PostImgs/@img.ImageName" />
+                                    }
+                                }
+                            </div>
+
+                        </div>
+
+                        <hr />
+                        @if (userId > 0)
+                        {
+                            <div class="commentBox">
+
+                                <div class="cmtBoxInput">
+                                    <input id="cmtdesc" type="text" class="form-control" />
+                                    <input id="sendCmt" type="button" class="btn btn-success ml-2" value="Gonder" />
+                                </div>
+
+                            </div>
+                        }
+
+
+
+                    </div>
+
+                    @* User Comments *@
+
+                    <div id="usersCmtBox">
+                        @foreach (var item in Model.Comments.OrderByDescending(i=>i.Id))
+                        {
+                            <div class="userCmt mt-2">
+
+                                <div class="usercmtInfo">
+                                    <div class="usercmtImg">
+                                        @if (item.User.UserDetail.Image != null)
+                                        {
+                                            <img width="50" src="~/Public/Images/UsersFolder/ProfilePic/@item.User.UserDetail.Image" />
+
+                                        }
+                                        else
+                                        {
+                                            <img width="50" src="~/Public/Images/UsersFolder/ProfilePic/devAvatar.svg" />
+                                        }
+                                    </div>
+                                    <div class="usercmtName">
+                                        <p>@item.User.FirstName @item.User.Lastname</p>
+                                        <span>@item.WritedTime.ToString("dd.MM.yyyy")</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="cmtBody">
+                                    <p>@item.Description</p>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+
+
+
+                    @* User Comments End *@
+
+                </div>
+                <!-- End ReadForm -->
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Main Content -->
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+
+            
+               $("#sendCmt").click(function () {
+                    $.ajax({
+                        url: "/Partial/SendComment",
+                        data:
+                        {
+                            formId:@Model.Id,
+                            cmt: $("#cmtdesc").val()
+                        },
+                        success: function (res) {
+                            $("#usersCmtBox").prepend(res);
+                            $("#cmtdesc").val("")
+                        }
+                    })
+               })
+           
+
+
+
+
+
+
+
+
+            var clickedImg = false;
+        $("#errorImg img").click(function () {
+
+            if (clickedImg == false) {
+                clickedImg = true;
+                $(this)[0].style.transform = "scale(5)";
+                $(this)[0].style.zIndex = "5";
+                console.log(clickedImg)
+
+            } else {
+                clickedImg = false;
+                $(this)[0].style.transform = "scale(1)";
+                $(this)[0].style.zIndex = "0";
+                console.log(clickedImg)
+            }
+        })
+
+        })
+
+    </script>
+}

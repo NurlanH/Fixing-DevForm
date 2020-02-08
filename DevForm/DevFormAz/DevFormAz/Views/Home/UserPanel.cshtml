@@ -1,0 +1,97 @@
+﻿@model DevFormAz.Models.UserDetail
+@{
+    ViewBag.Title = "İstifadəçi Paneli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main Content -->
+<section class="pageWrapperForIndex">
+    <div class="container">
+        <div class="UserSettingPanel">
+            <div class="settingHead">
+                <h2>İstifadəçi Paneli</h2>
+                <hr>
+            </div>
+            <div class="userSettings">
+                <form method="post" action="/Home/UserPanel" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-md-6 mb-1">
+                                    <input type="text" class="form-control" placeholder="Ad" value="@Model.User.FirstName" name="firstname">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="text" class="form-control" placeholder="SoyAd" value="@Model.User.Lastname" name="lastname">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <span>@ViewBag.EmailErrorMsg</span>
+                                    <input type="email" class="form-control" placeholder="Email" value="@Model.User.Email" name="email">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="password" class="form-control" placeholder="Yeni şifrə"  name="newpassword">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="password" class="form-control" placeholder="Şifrənin təkrarı"  name="repassword">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="text" class="form-control" placeholder="İxtisas" value="@Model.Specialty" name="specialty">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="text" class="form-control" placeholder="Ölkə" name="country" value="@Model.Country">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <input type="text" class="form-control" placeholder="Github link" name="githublink" value="@Model.GithubLink">
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <input type="text" class="form-control" placeholder="Linkedİn link" name="linkedinlink" value="@Model.LinkedinLink">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <input type="file" id="myFileBtn" class="form-control-file" name="image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <textarea class="form-control" placeholder="Biografiya"
+                                              id="exampleFormControlTextarea1" rows="3" name="biography" >@Model.Biography</textarea>
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    @{
+                                        var skills = "";
+                                        foreach (var item in Model.Skills)
+                                        {
+                                            skills += item.Name + " ";
+                                        }
+                                    }
+                                    <input type="text" style="text-transform: uppercase" id="skillCreate" class="form-control"
+                                           placeholder="Bacarıqlar məs: Javascript Css"  name = "skills" value="@skills">
+                                    <input id="skillarr" type="hidden" class="form-control"
+                                           name="checker" value="@skills">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <input type="text" class="form-control" placeholder="İş yerinin adı">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <input type="text" class="form-control" placeholder="Vəzifə">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4 d-flex justify-content-end">
+                            <input type="submit" class="btn btn-success mr-1" value="Yadda saxla">
+                            <input type="button" class="btn btn-danger" value="Ləğv et">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Main Content -->
+
